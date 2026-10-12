@@ -5,29 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Семинарға тіркелу</title>
     <style>
-        body { background-color: #6b5299; padding: 40px 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .main-card { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center; max-width: 450px; width: 100%; }
-        h1 { font-size: 20px; color: #222; margin-bottom: 10px; }
-        p { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
-        .qr-box img { width: 200px; height: 200px; border: 1px solid #ddd; padding: 8px; border-radius: 8px; background: #fff; margin-bottom: 15px; }
-        .direct-link { display: inline-block; background: #6b52e0; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px; }
-        .direct-link:hover { background: #573ec7; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #6b5299; padding: 20px 15px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .register-card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 100%; max-width: 450px; }
+        .register-card h2 { text-align: center; font-size: 20px; font-weight: 700; color: #222; margin-bottom: 4px; }
+        .register-card p { text-align: center; font-size: 12px; color: #777; margin-bottom: 18px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; color: #555; margin-bottom: 4px; }
+        .form-group input, .form-group select { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; outline: none; }
+        .submit-btn { width: 100%; background: #6b52e0; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .submit-btn:hover { background: #573ec7; }
     </style>
 </head>
 <body>
-    <div class="main-card">
-        <h1>Балалар және жасөспірімдер шығармашылық орталығы</h1>
-        <p>«Білім берудегі инновациялар» семинары<br><strong>23 Қазан 2026, Шонжы ауылы</strong></p>
-        
-        <div class="qr-box">
-            <p style="font-weight: bold; color: #444; margin-bottom: 8px;">ТІРКЕЛУ ҮШІН QR-ДЫ СКАНЕРЛЕҢІЗ:</p>
-            <!-- Бұл QR код тікелей сіздің мобильный формаңызға (register.html) апарады -->
-            <img src="https://quickchart.io/qr?text=https://lauraelikbaeva363-oss.github.io/seminar/register.html&size=250" alt="Тіркеу QR">
-        </div>
-
-        <div>
-            <a href="register.html" class="direct-link">Форманы тікелей ашу</a>
-        </div>
+    <div class="register-card">
+        <h2>Тіркелу</h2>
+        <p>Қатысу үшін форманы толтырыңыз</p>
+        <form id="mobileForm" onsubmit="handleRegistration(event)">
+            <div class="form-group">
+                <label>Тегі, аты, әкесінің аты</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Аты-жөніңізді енгізіңіз" required>
+            </div>
+            <div class="form-group">
+                <label>Жұмыс орны (мектеп атауы)</label>
+                <input type="text" id="workplace" name="workplace" placeholder="Мектеп атауы" required>
+            </div>
+            <div class="form-group">
+                <label>Лауазымыңыз</label>
+                <select id="position" name="position">
+                    <option value="">Лауазымды таңдаңыз</option>
+                    <option value="Мұғалім">Мұғалім</option>
+                    <option value="Мектеп директоры">Мектеп директоры</option>
+                    <option value="Орынбасар">Орынбасар</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Облысыңыз</label>
+                <select id="region" name="region" onchange="updateDistricts()">
+                    <option value="">Тізімнен облысты таңдаңыз...</option>
+                    <option value="Алматы облысы" selected>Алматы облысы</option>
+                    <option value="Жетісу облысы">Жетісу облысы</option>
+                    <option value="Жамбыл облысы">Жамбыл облысы</option>
+                    <option value="Түркістан облысы">Түркістан облысы</option>
+                    <option value="Басқа">Басқа облыс</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Ауданыңыз</label>
+                <select id="district" name="district"></select>
+            </div>
+            <div class="form-group">
+                <label>Қала/аудан</label>
+                <input type="text" id="city" name="city" value="Шонжы ауылы">
+            </div>
+            <div class="form-group">
+                <label>Телефон нөмірі</label>
+                <input type="text" id="phone" name="phone" placeholder="+7 (___) ___-__-__">
+            </div>
+            <div class="form-group">
+                <label>Қосымша ақпарат</label>
+                <input type="text" id="extra" name="extra" value="—">
+            </div>
+            <button type="submit" class="submit-btn">Тіркелу</button>
+        </form>
     </div>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw7aC-XWiyMGWd1KNeIJjkaPuAlOOoyx3L6laAoUirKL-BJZzmdEqlntzY8fLQZpcz4Mg/exec';
+        const districts = ["Ұйғыр ауданы (Шонжы)", "Еңбекшіқазақ ауданы", "Талғар ауданы", "Қарасай ауданы", "Жамбыл ауданы", "Іле ауданы", "Қонаев қаласы"];
+        function updateDistricts() {
+            const districtSelect = document.getElementById('district');
+            districtSelect.innerHTML = '';
+            districts.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d; opt.textContent = d;
+                districtSelect.appendChild(opt);
+            });
+        }
+        window.onload = updateDistricts;
+        function handleRegistration(event) {
+            event.preventDefault();
+            const form = document.getElementById('mobileForm');
+            const formData = new FormData(form);
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!');
+                    form.reset();
+                    document.getElementById('city').value = 'Шонжы ауылы';
+                    document.getElementById('extra').value = '—';
+                    updateDistricts();
+                })
+                .catch(error => alert('Қате орын алды, қайталап көріңіз!'));
+        }
+    </script>
 </body>
 </html>
