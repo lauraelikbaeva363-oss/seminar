@@ -290,8 +290,9 @@
             <div class="qr-card">
                 <div class="qr-item">
                     <h4 id="qrRegTitle">ТІРКЕЛУ QR</h4>
-                    <a href="https://forms.gle/PuEYD1irAGdWzgNp6" target="_blank" title="Google арқылы тіркелу үшін басыңыз">
-                        <img src="https://quickchart.io/qr?text=https://forms.gle/PuEYD1irAGdWzgNp6&size=250" alt="Google Тіркеу QR">
+                    <!-- Дәл осы жерде Google форманың орнына сіздің жеке register.html бетіңіздің сілтемесі тұр -->
+                    <a href="register.html" target="_blank" title="Мобильді форманы ашу">
+                        <img src="https://quickchart.io/qr?text=https://lauraelikbaeva363-oss.github.io/seminar/register.html&size=250" alt="Тіркеу QR">
                     </a>
                 </div>
                 <div class="qr-item">
@@ -314,6 +315,8 @@
     </div>
 
     <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw7aC-XWiyMGWd1KNeIJjkaPuAlOOoyx3L6laAoUirKL-BJZzmdEqlntzY8fLQZpcz4Mg/exec';
+
         let participantCount = 0;
         let qrSimulatedCount = 0;
         let currentLang = 'kk';
@@ -452,22 +455,29 @@
                 return;
             }
 
-            participantCount++;
-            document.getElementById('participantCount').textContent = participantCount;
+            const form = document.getElementById('registrationForm');
+            const formData = new FormData(form);
 
-            const listContainer = document.getElementById('participantsList');
-            const newItem = document.createElement('div');
-            newItem.className = 'participant-item';
-            newItem.textContent = `${participantCount}: ${fullName} (${workplace}${position}, ${region} / ${district})`;
-            
-            listContainer.prepend(newItem);
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    participantCount++;
+                    document.getElementById('participantCount').textContent = participantCount;
 
-            document.getElementById('registrationForm').reset();
-            document.getElementById('city').value = t.valCity;
-            document.getElementById('extra').value = '—';
-            updateDistricts();
+                    const listContainer = document.getElementById('participantsList');
+                    const newItem = document.createElement('div');
+                    newItem.className = 'participant-item';
+                    newItem.textContent = `${participantCount}: ${fullName} (${workplace}${position}, ${region} / ${district})`;
+                    
+                    listContainer.prepend(newItem);
 
-            alert(t.alertSuccess);
+                    document.getElementById('registrationForm').reset();
+                    document.getElementById('city').value = t.valCity;
+                    document.getElementById('extra').value = '—';
+                    updateDistricts();
+
+                    alert(t.alertSuccess);
+                })
+                .catch(error => alert('Қате орын алды, қайталап көріңіз!'));
         }
 
         function checkNewRegistrations() {
