@@ -18,6 +18,7 @@
             color: #333;
         }
 
+        /* Тіл ауыстырғыш батырма стилі */
         .lang-switcher {
             max-width: 1000px;
             margin: 0 auto 10px auto;
@@ -40,6 +41,7 @@
             background: #e4e0f5;
         }
 
+        /* Жоғарғы ақпараттық блок */
         .header-card {
             background: #fff;
             padding: 20px;
@@ -69,6 +71,7 @@
             margin: 0 auto;
         }
 
+        /* Сол жақ: Тіркелу формасы */
         .left-column {
             flex: 1.2;
             background: #fff;
@@ -77,6 +80,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
+        /* Оң жақ баған */
         .right-column {
             flex: 0.8;
             display: flex;
@@ -122,6 +126,7 @@
             background: #fff;
         }
 
+        /* Тіркелген қатысушылар блогы */
         .participants-card {
             background: #fff;
             padding: 20px;
@@ -144,11 +149,12 @@
         }
 
         .participants-header .count {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
             margin-top: 5px;
         }
 
+        /* Тексеру батырмасының стилі */
         .check-btn {
             width: 100%;
             background: #4e3684;
@@ -179,6 +185,7 @@
             color: #444;
         }
 
+        /* Форма элементтері */
         .form-group {
             margin-bottom: 12px;
         }
@@ -197,11 +204,6 @@
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 13px;
-            outline: none;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            border-color: #6b52e0;
         }
 
         .submit-btn {
@@ -215,26 +217,21 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
-            transition: background 0.2s;
         }
 
         .submit-btn:hover {
             background: #573ec7;
         }
-
-        @media(max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-            }
-        }
     </style>
 </head>
 <body>
 
+    <!-- Тіл ауыстырғыш батырма -->
     <div class="lang-switcher">
         <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">Русский</button>
     </div>
 
+    <!-- Жоғарғы ақпарат блогы -->
     <div class="header-card">
         <h1 id="orgName">Балалар және жасөспірімдер шығармашылық орталығы</h1>
         <p id="eventInfo">Өткізілетін күні мен уақыты: 23 Қазан 2026, 10:00 | Орны: Шонжы ауылы<br>
@@ -299,13 +296,14 @@
             </form>
         </div>
 
-        <!-- Оң жақ: QR кодтар және тіркелгендер тізімі -->
+        <!-- Оң жақ: QR кодтар және Тіркелгендер тізімі -->
         <div class="right-column">
+            <!-- QR КАРТОЧКАСЫ -->
             <div class="qr-card">
                 <div class="qr-item">
                     <h4 id="qrRegTitle">ТІРКЕЛУ QR</h4>
-                    <a href="https://lauraelikbaeva363-oss.github.io/seminar/#registrationForm" target="_blank" title="Формаға өту">
-                        <img src="https://quickchart.io/qr?text=https://lauraelikbaeva363-oss.github.io/seminar/#registrationForm&size=250" alt="Тіркеу QR">
+                    <a href="https://forms.gle/PuEYD1irAGdWzgNp6" target="_blank" title="Google арқылы тіркелу үшін басыңыз">
+                        <img src="https://quickchart.io/qr?text=https://forms.gle/PuEYD1irAGdWzgNp6&size=250" alt="Google Тіркеу QR">
                     </a>
                 </div>
                 <div class="qr-item">
@@ -316,13 +314,19 @@
                 </div>
             </div>
 
+            <!-- ТІРКЕЛГЕН ҚАТЫСУШЫЛАР БЛОГЫ -->
             <div class="participants-card">
                 <div class="participants-header">
                     <h3 id="participantsTitle">Тіркелген қатысушылар</h3>
                     <div class="count" id="participantCount">0</div>
                 </div>
+                
+                <!-- Тексеру батырмасы -->
                 <button type="button" class="check-btn" id="checkBtn" onclick="checkNewRegistrations()">🔄 Тіркелгендерді тексеру</button>
-                <div class="participants-list" id="participantsList"></div>
+
+                <div class="participants-list" id="participantsList">
+                    <!-- Жаңа тіркелгендер осы жерге автоматты түрде қосылып отырады -->
+                </div>
             </div>
         </div>
     </div>
@@ -334,54 +338,144 @@
 
         const districtsData = {
             kk: {
-                "Алматы облысы": ["Ұйғыр ауданы (Шонжы)", "Еңбекшіқазақ ауданы", "Талғар ауданы", "Қарасай ауданы", "Жамбыл ауданы", "Іле ауданы", "Қонаев қаласы"],
-                "Жетісу облысы": ["Ақсу ауданы", "Алакөл ауданы", "Ескелді ауданы", "Қаратал ауданы", "Кербұлақ ауданы", "Сарқан ауданы", "Талдықорған қ."],
-                "Жамбыл облысы": ["Байзақ ауданы", "Жамбыл ауданы", "Қордай ауданы", "Меркі ауданы", "Тұрар Рысқұл ауданы", "Тараз қ."],
-                "Түркістан облысы": ["Бәйдібек ауданы", "Жетісай ауданы", "Сарыағаш ауданы", "Төле би ауданы", "Түркістан қ."],
+                "Алматы облысы": [
+                    "Ұйғыр ауданы (Шонжы)",
+                    "Еңбекшіқазақ ауданы",
+                    "Талғар ауданы",
+                    "Қарасай ауданы",
+                    "Жамбыл ауданы",
+                    "Іле ауданы",
+                    "Қонаев қаласы"
+                ],
+                "Жетісу облысы": [
+                    "Ақсу ауданы",
+                    "Алакөл ауданы",
+                    "Ескелді ауданы",
+                    "Қаратал ауданы",
+                    "Кербұлақ ауданы",
+                    "Сарқан ауданы",
+                    "Талдықорған қ."
+                ],
+                "Жамбыл облысы": [
+                    "Байзақ ауданы",
+                    "Жамбыл ауданы",
+                    "Қордай ауданы",
+                    "Меркі ауданы",
+                    "Тұрар Рысқұл ауданы",
+                    "Тараз қ."
+                ],
+                "Түркістан облысы": [
+                    "Бәйдібек ауданы",
+                    "Жетісай ауданы",
+                    "Сарыағаш ауданы",
+                    "Төле би ауданы",
+                    "Түркістан қ."
+                ],
                 "Басқа": ["Басқа аудан"]
             },
             ru: {
-                "Алматы облысы": ["Уйгурский район (Шонжы)", "Енбекшиказахский район", "Талгарский район", "Карасайский район", "Жамбылский район", "Илийский район", "город Конаев"],
-                "Жетісу облысы": ["Аксуский район", "Алакольский район", "Ескельдинский район", "Каратальский район", "Кербулакский район", "Сарканский район", "город Талдыкорган"],
-                "Жамбыл облысы": ["Байзакский район", "Жамбылский район", "Кордайский район", "Меркенский район", "район Т. Рыскулова", "город Тараз"],
-                "Түркістан облысы": ["Байдибекский район", "Жетысайский район", "Сарыагашский район", "Толебийский район", "город Туркестан"],
+                "Алматы облысы": [
+                    "Уйгурский район (Шонжы)",
+                    "Енбекшиказахский район",
+                    "Талгарский район",
+                    "Карасайский район",
+                    "Жамбылский район",
+                    "Илийский район",
+                    "город Конаев"
+                ],
+                "Жетісу облысы": [
+                    "Аксуский район",
+                    "Алакольский район",
+                    "Ескельдинский район",
+                    "Каратальский район",
+                    "Кербулакский район",
+                    "Сарканский район",
+                    "город Талдыкорган"
+                ],
+                "Жамбыл облысы": [
+                    "Байзакский район",
+                    "Жамбылский район",
+                    "Кордайский район",
+                    "Меркенский район",
+                    "район Т. Рыскулова",
+                    "город Тараз"
+                ],
+                "Түркістан облысы": [
+                    "Байдибекский район",
+                    "Жетысайский район",
+                    "Сарыагашский район",
+                    "Толебийский район",
+                    "город Туркестан"
+                ],
                 "Басқа": ["Другой район"]
             }
         };
 
         const translations = {
             kk: {
-                pageTitle: "Семинарға тіркелу", langBtn: "Русский",
+                pageTitle: "Семинарға тіркелу",
+                langBtn: "Русский",
                 orgName: "Балалар және жасөспірімдер шығармашылық орталығы",
                 eventInfo: "Өткізілетін күні мен уақыты: 23 Қазан 2026, 10:00 | Орны: Шонжы ауылы<br>Заманауи білім беру технологиялары мен оқыту әдістерін талқылау.<br><small style='color: #888;'>Ұйымдастырушылар: Балалар және жасөспірімдер шығармашылық орталығы</small>",
-                formTitle: "Тіркелу", formSub: "Қатысу үшін форманы толтырыңыз",
-                labelFullName: "Тегі, аты, әкесінің аты", placeholderFullName: "Аты-жөніңізді енгізіңіз",
-                labelWorkplace: "Жұмыс орны (мектеп атауы)", placeholderWorkplace: "Мектеп атауы",
-                labelPosition: "Лауазымыңыз", optSelectPos: "Лауазымды таңдаңыз", optTeacher: "Мұғалім", optDirector: "Мектеп директоры", optDeputy: "Орынбасар",
-                labelRegion: "Облысыңыз", optSelectRegion: "Тізімнен облысты таңдаңыз...",
-                labelDistrict: "Ауданыңыз", optSelectDistrict: "Алдымен облысты таңдаңыз...",
-                labelCity: "Қала/аудан", valCity: "Шонжы ауылы",
-                labelPhone: "Телефон нөмірі", labelExtra: "Қосымша ақпарат", submitBtn: "Тіркелу",
-                qrRegTitle: "ТІРКЕЛУ QR", qrFeedbackTitle: "КЕРІ БАЙЛАНЫС QR",
-                participantsTitle: "Тіркелген қатысушылар", checkBtn: "🔄 Тіркелгендерді тексеру",
-                alertFill: "Өтінемін, аты-жөніңізді және жұмыс орныңызды енгізіңіз!", alertSuccess: "Құттықтаймыз, сіз сәтті тіркелдіңіз!",
+                formTitle: "Тіркелу",
+                formSub: "Қатысу үшін форманы толтырыңыз",
+                labelFullName: "Тегі, аты, әкесінің аты",
+                placeholderFullName: "Аты-жөніңізді енгізіңіз",
+                labelWorkplace: "Жұмыс орны (мектеп атауы)",
+                placeholderWorkplace: "Мектеп атауы",
+                labelPosition: "Лауазымыңыз",
+                optSelectPos: "Лауазымды таңдаңыз",
+                optTeacher: "Мұғалім",
+                optDirector: "Мектеп директоры",
+                optDeputy: "Орынбасар",
+                labelRegion: "Облысыңыз",
+                optSelectRegion: "Тізімнен облысты таңдаңыз...",
+                labelDistrict: "Ауданыңыз",
+                optSelectDistrict: "Алдымен облысты таңдаңыз...",
+                labelCity: "Қала/аудан",
+                valCity: "Шонжы ауылы",
+                labelPhone: "Телефон нөмірі",
+                labelExtra: "Қосымша ақпарат",
+                submitBtn: "Тіркелу",
+                qrRegTitle: "ТІРКЕЛУ QR",
+                qrFeedbackTitle: "КЕРІ БАЙЛАНЫС QR",
+                participantsTitle: "Тіркелген қатысушылар",
+                checkBtn: "🔄 Тіркелгендерді тексеру",
+                alertFill: "Өтінемін, аты-жөніңізді және жұмыс орныңызды енгізіңіз!",
+                alertSuccess: "Құттықтаймыз, сіз сәтті тіркелдіңіз!",
                 qrRegisteredText: "QR арқылы тіркелді"
             },
             ru: {
-                pageTitle: "Регистрация на семинар", langBtn: "Қазақша",
+                pageTitle: "Регистрация на семинар",
+                langBtn: "Қазақша",
                 orgName: "Центр творчества детей и юношества",
                 eventInfo: "Дата и время проведения: 23 Октября 2026, 10:00 | Место: село Шонжы<br>Обсуждение современных образовательных технологий и методов обучения.<br><small style='color: #888;'>Организаторы: Центр творчества детей и юношества</small>",
-                formTitle: "Регистрация", formSub: "Заполните форму для участия",
-                labelFullName: "ФИО (Фамилия, Имя, Отчество)", placeholderFullName: "Введите ваши ФИО",
-                labelWorkplace: "Место работы (название школы)", placeholderWorkplace: "Название школы",
-                labelPosition: "Ваша должность", optSelectPos: "Выберите должность", optTeacher: "Учитель", optDirector: "Директор школы", optDeputy: "Заместитель",
-                labelRegion: "Ваша область", optSelectRegion: "Выберите область из списка...",
-                labelDistrict: "Ваш район", optSelectDistrict: "Сначала выберите область...",
-                labelCity: "Город/район", valCity: "село Шонжы",
-                labelPhone: "Номер телефона", labelExtra: "Дополнительная информация", submitBtn: "Зарегистрироваться",
-                qrRegTitle: "QR РЕГИСТРАЦИИ", qrFeedbackTitle: "QR ОБРАТНОЙ СВЯЗИ",
-                participantsTitle: "Зарегистрированные участники", checkBtn: "🔄 Проверить зарегистрированных",
-                alertFill: "Пожалуйста, введите ваше ФИО и место работы!", alertSuccess: "Поздравляем, вы успешно зарегистрировались!",
+                formTitle: "Регистрация",
+                formSub: "Заполните форму для участия",
+                labelFullName: "ФИО (Фамилия, Имя, Отчество)",
+                placeholderFullName: "Введите ваши ФИО",
+                labelWorkplace: "Место работы (название школы)",
+                placeholderWorkplace: "Название школы",
+                labelPosition: "Ваша должность",
+                optSelectPos: "Выберите должность",
+                optTeacher: "Учитель",
+                optDirector: "Директор школы",
+                optDeputy: "Заместитель",
+                labelRegion: "Ваша область",
+                optSelectRegion: "Выберите область из списка...",
+                labelDistrict: "Ваш район",
+                optSelectDistrict: "Сначала выберите область...",
+                labelCity: "Город/район",
+                valCity: "село Шонжы",
+                labelPhone: "Номер телефона",
+                labelExtra: "Дополнительная информация",
+                submitBtn: "Зарегистрироваться",
+                qrRegTitle: "QR РЕГИСТРАЦИИ",
+                qrFeedbackTitle: "QR ОБРАТНОЙ СВЯЗИ",
+                participantsTitle: "Зарегистрированные участники",
+                checkBtn: "🔄 Проверить зарегистрированных",
+                alertFill: "Пожалуйста, введите ваше ФИО и место работы!",
+                alertSuccess: "Поздравляем, вы успешно зарегистрировались!",
                 qrRegisteredText: "Зарегистрирован(а) через QR"
             }
         };
@@ -403,6 +497,7 @@
             }
 
             const districts = districtsData[currentLang][selectedRegion] || districtsData['kk'][selectedRegion] || [];
+            
             const defaultOpt = document.createElement('option');
             defaultOpt.value = '';
             defaultOpt.textContent = currentLang === 'kk' ? 'Ауданды таңдаңыз...' : 'Выберите район...';
