@@ -476,23 +476,15 @@
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
                     alert(t.alertSuccess);
-                    document.getElementById('registrationForm').reset();
-                    document.getElementById('city').value = t.valCity;
-                    document.getElementById('extra').value = '—';
-                    updateDistricts();
-                    setTimeout(loadRegistrations, 1000);
+                    // Сәтті тіркелгеннен кейін бетті автоматты түрде қайта жаңартып, басты қалпына келтіреді
+                    window.location.reload();
                 })
                 .catch(error => {
                     alert(t.alertSuccess);
-                    document.getElementById('registrationForm').reset();
-                    document.getElementById('city').value = t.valCity;
-                    document.getElementById('extra').value = '—';
-                    updateDistricts();
-                    setTimeout(loadRegistrations, 1000);
+                    window.location.reload();
                 });
         }
 
-        // Автоматически загружать при открытии и обновлять каждые 10 секунд
         window.onload = () => {
             loadRegistrations();
             setInterval(loadRegistrations, 10000);
