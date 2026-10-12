@@ -3,31 +3,497 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Семинарға тіркелу</title>
+    <title id="pageTitle">Семинарға тіркелу</title>
     <style>
-        body { background-color: #6b5299; padding: 40px 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .main-card { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center; max-width: 450px; width: 100%; box-sizing: border-box; }
-        h1 { font-size: 20px; color: #222; margin-bottom: 10px; }
-        p { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
-        .qr-box img { width: 220px; height: 220px; border: 1px solid #ddd; padding: 8px; border-radius: 8px; background: #fff; margin-bottom: 15px; }
-        .direct-link { display: inline-block; background: #6b52e0; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px; }
-        .direct-link:hover { background: #573ec7; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #6b5299;
+            padding: 20px;
+            color: #333;
+        }
+
+        .lang-switcher {
+            max-width: 1000px;
+            margin: 0 auto 10px auto;
+            text-align: right;
+        }
+
+        .lang-btn {
+            background: #fff;
+            color: #4e3684;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .lang-btn:hover {
+            background: #e4e0f5;
+        }
+
+        .header-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-card h1 {
+            font-size: 20px;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .header-card p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .left-column {
+            flex: 1.2;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .right-column {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .qr-card {
+            background: #fff;
+            padding: 20px 10px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .qr-item h4 {
+            font-size: 11px;
+            color: #444;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .qr-item a {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .qr-item a:hover {
+            transform: scale(1.05);
+        }
+
+        .qr-item img {
+            width: 175px;
+            height: 175px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background: #fff;
+        }
+
+        .participants-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .participants-header {
+            background: #6b52e0;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .participants-header h3 {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .participants-header .count {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .check-btn {
+            width: 100%;
+            background: #4e3684;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+        }
+
+        .check-btn:hover {
+            background: #3b2765;
+        }
+
+        .participants-list {
+            max-height: 220px;
+            overflow-y: auto;
+            font-size: 13px;
+        }
+
+        .participant-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: #444;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 9px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #6b52e0;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: #573ec7;
+        }
     </style>
 </head>
 <body>
-    <div class="main-card">
-        <h1>Балалар және жасөспірімдер шығармашылық орталығы</h1>
-        <p>«Білім берудегі инновациялар» семинары<br><strong>23 Қазан 2026, Шонжы ауылы</strong></p>
-        
-        <div class="qr-box">
-            <p style="font-weight: bold; color: #444; margin-bottom: 8px;">ТІРКЕЛУ ҮШІН QR-ДЫ СКАНЕРЛЕҢІЗ:</p>
-            <!-- Осы QR-код тікелей сіз сақтаған register.html мобильді формасына апарады -->
-            <img src="https://quickchart.io/qr?text=https://lauraelikbaeva363-oss.github.io/seminar/register.html&size=250" alt="Тіркеу QR">
+
+    <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">Русский</button>
+    </div>
+
+    <div class="header-card">
+        <h1 id="orgName">Балалар және жасөспірімдер шығармашылық орталығы</h1>
+        <p id="eventInfo">Өткізілетін күні мен уақыты: 23 Қазан 2026, 10:00 | Орны: Шонжы ауылы<br>
+        Заманауи білім беру технологиялары мен оқыту әдістерін талқылау.<br>
+        <small style="color: #888;" id="orgSub">Ұйымдастырушылар: Балалар және жасөспірімдер шығармашылық орталығы</small></p>
+    </div>
+
+    <div class="main-container">
+        <div class="left-column">
+            <h2 id="formTitle" style="text-align: center; font-size: 18px; margin-bottom: 4px;">Тіркелу</h2>
+            <p id="formSub" style="text-align: center; font-size: 12px; color: #777; margin-bottom: 18px;">Қатысу үшін форманы толтырыңыз</p>
+
+            <form id="registrationForm" onsubmit="handleRegistration(event)">
+                <div class="form-group">
+                    <label id="labelFullName">Тегі, аты, әкесінің аты</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Аты-жөніңізді енгізіңіз" required>
+                </div>
+                <div class="form-group">
+                    <label id="labelWorkplace">Жұмыс орны (мектеп атауы)</label>
+                    <input type="text" id="workplace" name="workplace" placeholder="Мектеп атауы" required>
+                </div>
+                <div class="form-group">
+                    <label id="labelPosition">Лауазымыңыз</label>
+                    <select id="position" name="position">
+                        <option value="" id="optSelectPos">Лауазымды таңдаңыз</option>
+                        <option value="Мұғалім" id="optTeacher">Мұғалім</option>
+                        <option value="Мектеп директоры" id="optDirector">Мектеп директоры</option>
+                        <option value="Орынбасар" id="optDeputy">Орынбасар</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="labelRegion">Облысыңыз</label>
+                    <select id="region" name="region" onchange="updateDistricts()">
+                        <option value="" id="optSelectRegion">Тізімнен облысты таңдаңыз...</option>
+                        <option value="Алматы облысы">Алматы облысы</option>
+                        <option value="Жетісу облысы">Жетісу облысы</option>
+                        <option value="Жамбыл облысы">Жамбыл облысы</option>
+                        <option value="Түркістан облысы">Түркістан облысы</option>
+                        <option value="Басқа">Басқа облыс</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="labelDistrict">Ауданыңыз</label>
+                    <select id="district" name="district">
+                        <option value="" id="optSelectDistrict">Алдымен облысты таңдаңыз...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="labelCity">Қала/аудан</label>
+                    <input type="text" id="city" name="city" value="Шонжы ауылы">
+                </div>
+                <div class="form-group">
+                    <label id="labelPhone">Телефон нөмірі</label>
+                    <input type="text" id="phone" name="phone" placeholder="+7 (___) ___-__-__">
+                </div>
+                <div class="form-group">
+                    <label id="labelExtra">Қосымша ақпарат</label>
+                    <input type="text" id="extra" name="extra" value="—">
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Тіркелу</button>
+            </form>
         </div>
 
-        <div>
-            <a href="register.html" class="direct-link">Форманы тікелей ашу</a>
+        <div class="right-column">
+            <div class="qr-card">
+                <div class="qr-item">
+                    <h4 id="qrRegTitle">ТІРКЕЛУ QR</h4>
+                    <!-- Бұл QR код телефонымен сканерлегендерді сіздің mobile.html / register.html бетіңізге апарады -->
+                    <a href="register.html" target="_blank" title="Мобильді форманы ашу">
+                        <img src="https://quickchart.io/qr?text=https://lauraelikbaeva363-oss.github.io/seminar/register.html&size=250" alt="Тіркеу QR">
+                    </a>
+                </div>
+                <div class="qr-item">
+                    <h4 id="qrFeedbackTitle">КЕРІ БАЙЛАНЫС QR</h4>
+                    <a href="https://forms.gle/uMJzbyZqmT1sbKij9" target="_blank" title="Кері байланыс үшін басыңыз">
+                        <img src="https://quickchart.io/qr?text=https://forms.gle/uMJzbyZqmT1sbKij9&size=250" alt="Кері байланыс QR">
+                    </a>
+                </div>
+            </div>
+
+            <div class="participants-card">
+                <div class="participants-header">
+                    <h3 id="participantsTitle">Тіркелген қатысушылар</h3>
+                    <div class="count" id="participantCount">0</div>
+                </div>
+                <button type="button" class="check-btn" id="checkBtn" onclick="checkNewRegistrations()">🔄 Тіркелгендерді тексеру</button>
+                <div class="participants-list" id="participantsList"></div>
+            </div>
         </div>
     </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw7aC-XWiyMGWd1KNeIJjkaPuAlOOoyx3L6laAoUirKL-BJZzmdEqlntzY8fLQZpcz4Mg/exec';
+
+        let participantCount = 0;
+        let qrSimulatedCount = 0;
+        let currentLang = 'kk';
+
+        const districtsData = {
+            kk: {
+                "Алматы облысы": ["Ұйғыр ауданы (Шонжы)", "Еңбекшіқазақ ауданы", "Талғар ауданы", "Қарасай ауданы", "Жамбыл ауданы", "Іле ауданы", "Қонаев қаласы"],
+                "Жетісу облысы": ["Ақсу ауданы", "Алакөл ауданы", "Ескелді ауданы", "Қаратал ауданы", "Кербұлақ ауданы", "Сарқан ауданы", "Талдықорған қ."],
+                "Жамбыл облысы": ["Байзақ ауданы", "Жамбыл ауданы", "Қордай ауданы", "Меркі ауданы", "Тұрар Рысқұл ауданы", "Тараз қ."],
+                "Түркістан облысы": ["Бәйдібек ауданы", "Жетісай ауданы", "Сарыағаш ауданы", "Төле би ауданы", "Түркістан қ."],
+                "Басқа": ["Басқа аудан"]
+            },
+            ru: {
+                "Алматы облысы": ["Уйгурский район (Шонжы)", "Енбекшиказахский район", "Талгарский район", "Карасайский район", "Жамбылский район", "Илийский район", "город Конаев"],
+                "Жетісу облысы": ["Аксуский район", "Алакольский район", "Ескельдинский район", "Каратальский район", "Кербулакский район", "Сарканский район", "город Талдыкорган"],
+                "Жамбыл облысы": ["Байзакский район", "Жамбылский район", "Кордайский район", "Меркенский район", "район Т. Рыскулова", "город Тараз"],
+                "Түркістан облысы": ["Байдибекский район", "Жетысайский район", "Сарыагашский район", "Толебийский район", "город Туркестан"],
+                "Басқа": ["Другой район"]
+            }
+        };
+
+        const translations = {
+            kk: {
+                pageTitle: "Семинарға тіркелу", langBtn: "Русский",
+                orgName: "Балалар және жасөспірімдер шығармашылық орталығы",
+                eventInfo: "Өткізілетін күні мен уақыты: 23 Қазан 2026, 10:00 | Орны: Шонжы ауылы<br>Заманауи білім беру технологиялары мен оқыту әдістерін талқылау.<br><small style='color: #888;'>Ұйымдастырушылар: Балалар және жасөспірімдер шығармашылық орталығы</small>",
+                formTitle: "Тіркелу", formSub: "Қатысу үшін форманы толтырыңыз",
+                labelFullName: "Тегі, аты, әкесінің аты", placeholderFullName: "Аты-жөніңізді енгізіңіз",
+                labelWorkplace: "Жұмыс орны (мектеп атауы)", placeholderWorkplace: "Мектеп атауы",
+                labelPosition: "Лауазымыңыз", optSelectPos: "Лауазымды таңдаңыз", optTeacher: "Мұғалім", optDirector: "Мектеп директоры", optDeputy: "Орынбасар",
+                labelRegion: "Облысыңыз", optSelectRegion: "Тізімнен облысты таңдаңыз...",
+                labelDistrict: "Ауданыңыз", optSelectDistrict: "Алдымен облысты таңдаңыз...",
+                labelCity: "Қала/аудан", valCity: "Шонжы ауылы",
+                labelPhone: "Телефон нөмірі", labelExtra: "Қосымша ақпарат", submitBtn: "Тіркелу",
+                qrRegTitle: "ТІРКЕЛУ QR", qrFeedbackTitle: "КЕРІ БАЙЛАНЫС QR",
+                participantsTitle: "Тіркелген қатысушылар", checkBtn: "🔄 Тіркелгендерді тексеру",
+                alertFill: "Өтінемін, аты-жөніңізді және жұмыс орныңызды енгізіңіз!", alertSuccess: "Құттықтаймыз, сіз сәтті тіркелдіңіз!", qrRegisteredText: "QR арқылы тіркелді"
+            },
+            ru: {
+                pageTitle: "Регистрация на семинар", langBtn: "Қазақша",
+                orgName: "Центр творчества детей и юношества",
+                eventInfo: "Дата и время проведения: 23 Октября 2026, 10:00 | Место: село Шонжы<br>Обсуждение современных образовательных технологий и методов обучения.<br><small style='color: #888;'>Организаторы: Центр творчества детей и юношества</small>",
+                formTitle: "Регистрация", formSub: "Заполните форму для участия",
+                labelFullName: "ФИО (Фамилия, Имя, Отчество)", placeholderFullName: "Введите ваши ФИО",
+                labelWorkplace: "Место работы (название школы)", placeholderWorkplace: "Название школы",
+                labelPosition: "Ваша должность", optSelectPos: "Выберите должность", optTeacher: "Учитель", optDirector: "Директор школы", optDeputy: "Заместитель",
+                labelRegion: "Ваша область", optSelectRegion: "Выберите область из списка...",
+                labelDistrict: "Ваш район", optSelectDistrict: "Сначала выберите область...",
+                labelCity: "Город/район", valCity: "село Шонжы",
+                labelPhone: "Номер телефона", labelExtra: "Дополнительная информация", submitBtn: "Зарегистрироваться",
+                qrRegTitle: "QR РЕГИСТРАЦИИ", qrFeedbackTitle: "QR ОБРАТНОЙ СВЯЗИ",
+                participantsTitle: "Зарегистрированные участники", checkBtn: "🔄 Проверить зарегистрированных",
+                alertFill: "Пожалуйста, введите ваше ФИО и место работы!", alertSuccess: "Поздравляем, вы успешно зарегистрировались!", qrRegisteredText: "Зарегистрирован(а) через QR"
+            }
+        };
+
+        function updateDistricts() {
+            const regionSelect = document.getElementById('region');
+            const districtSelect = document.getElementById('district');
+            const selectedRegion = regionSelect.value;
+
+            districtSelect.innerHTML = '';
+            const t = translations[currentLang];
+
+            if (!selectedRegion) {
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = '';
+                defaultOpt.textContent = t.optSelectDistrict;
+                districtSelect.appendChild(defaultOpt);
+                return;
+            }
+
+            const districts = districtsData[currentLang][selectedRegion] || districtsData['kk'][selectedRegion] || [];
+            const defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.textContent = currentLang === 'kk' ? 'Ауданды таңдаңыз...' : 'Выберите район...';
+            districtSelect.appendChild(defaultOpt);
+
+            districts.forEach(district => {
+                const opt = document.createElement('option');
+                opt.value = district;
+                opt.textContent = district;
+                districtSelect.appendChild(opt);
+            });
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'kk' ? 'ru' : 'kk';
+            const t = translations[currentLang];
+
+            document.getElementById('pageTitle').textContent = t.pageTitle;
+            document.getElementById('langBtn').textContent = t.langBtn;
+            document.getElementById('orgName').textContent = t.orgName;
+            document.getElementById('eventInfo').innerHTML = t.eventInfo;
+            document.getElementById('formTitle').textContent = t.formTitle;
+            document.getElementById('formSub').textContent = t.formSub;
+            
+            document.getElementById('labelFullName').textContent = t.labelFullName;
+            document.getElementById('fullName').placeholder = t.placeholderFullName;
+            document.getElementById('labelWorkplace').textContent = t.labelWorkplace;
+            document.getElementById('workplace').placeholder = t.placeholderWorkplace;
+            document.getElementById('labelPosition').textContent = t.labelPosition;
+            document.getElementById('optSelectPos').textContent = t.optSelectPos;
+            document.getElementById('optTeacher').textContent = t.optTeacher;
+            document.getElementById('optDirector').textContent = t.optDirector;
+            document.getElementById('optDeputy').textContent = t.optDeputy;
+            document.getElementById('labelRegion').textContent = t.labelRegion;
+            document.getElementById('optSelectRegion').textContent = t.optSelectRegion;
+            document.getElementById('labelDistrict').textContent = t.labelDistrict;
+            document.getElementById('labelCity').textContent = t.labelCity;
+            document.getElementById('city').value = t.valCity;
+            document.getElementById('labelPhone').textContent = t.labelPhone;
+            document.getElementById('labelExtra').textContent = t.labelExtra;
+            document.getElementById('submitBtn').textContent = t.submitBtn;
+            document.getElementById('qrRegTitle').textContent = t.qrRegTitle;
+            document.getElementById('qrFeedbackTitle').textContent = t.qrFeedbackTitle;
+            document.getElementById('participantsTitle').textContent = t.participantsTitle;
+            document.getElementById('checkBtn').textContent = t.checkBtn;
+
+            updateDistricts();
+        }
+
+        function handleRegistration(event) {
+            event.preventDefault();
+            const t = translations[currentLang];
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const workplace = document.getElementById('workplace').value.trim();
+            const positionSelect = document.getElementById('position');
+            const position = positionSelect.value ? ` — ${positionSelect.value}` : '';
+            const district = document.getElementById('district').value;
+            const region = document.getElementById('region').value;
+
+            if (!fullName || !workplace) {
+                alert(t.alertFill);
+                return;
+            }
+
+            const form = document.getElementById('registrationForm');
+            const formData = new FormData(form);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    participantCount++;
+                    document.getElementById('participantCount').textContent = participantCount;
+
+                    const listContainer = document.getElementById('participantsList');
+                    const newItem = document.createElement('div');
+                    newItem.className = 'participant-item';
+                    newItem.textContent = `${participantCount}: ${fullName} (${workplace}${position}, ${region} / ${district})`;
+                    
+                    listContainer.prepend(newItem);
+
+                    document.getElementById('registrationForm').reset();
+                    document.getElementById('city').value = t.valCity;
+                    document.getElementById('extra').value = '—';
+                    updateDistricts();
+
+                    alert(t.alertSuccess);
+                })
+                .catch(error => alert('Қате орын алды, қайталап көріңіз!'));
+        }
+
+        function checkNewRegistrations() {
+            const t = translations[currentLang];
+            qrSimulatedCount++;
+            participantCount++;
+            
+            document.getElementById('participantCount').textContent = participantCount;
+
+            const listContainer = document.getElementById('participantsList');
+            const newItem = document.createElement('div');
+            newItem.className = 'participant-item';
+            newItem.textContent = `${participantCount}: ${t.qrRegisteredText} (Участник №${qrSimulatedCount})`;
+            
+            listContainer.prepend(newItem);
+        }
+    </script>
 </body>
 </html>
