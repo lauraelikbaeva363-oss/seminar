@@ -144,7 +144,7 @@
         }
 
         .participants-header .count {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             margin-top: 5px;
         }
@@ -305,9 +305,9 @@
             <div class="participants-card">
                 <div class="participants-header">
                     <h3 id="participantsTitle">Тіркелген қатысушылар</h3>
-                    <div class="count" id="participantCount">0</div>
+                    <div class="count" id="participantCount">...</div>
                 </div>
-                <button type="button" class="check-btn" id="checkBtn" onclick="checkNewRegistrations()">🔄 Тіркелгендерді тексеру</button>
+                <button type="button" class="check-btn" id="checkBtn" onclick="loadRegistrations()">🔄 Тіркелгендерді тексеру</button>
                 <div class="participants-list" id="participantsList"></div>
             </div>
         </div>
@@ -316,8 +316,6 @@
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw7aC-XWiyMGWd1KNeIJjkaPuAlOOoyx3L6laAoUirKL-BJZzmdEqlntzY8fLQZpcz4Mg/exec';
 
-        let participantCount = 0;
-        let qrSimulatedCount = 0;
         let currentLang = 'kk';
 
         const districtsData = {
@@ -352,7 +350,7 @@
                 labelPhone: "Телефон нөмірі", labelExtra: "Қосымша ақпарат", submitBtn: "Тіркелу",
                 qrRegTitle: "ТІРКЕЛУ QR", qrFeedbackTitle: "КЕРІ БАЙЛАНЫС QR",
                 participantsTitle: "Тіркелген қатысушылар", checkBtn: "🔄 Тіркелгендерді тексеру",
-                alertFill: "Өтінемін, аты-жөніңізді және жұмыс орныңызды енгізіңіз!", alertSuccess: "Құттықтаймыз, сіз сәтті тіркелдіңіз!", qrRegisteredText: "QR арқылы тіркелді"
+                alertFill: "Өтінемін, аты-жөніңізді және жұмыс орныңызды енгізіңіз!", alertSuccess: "Құттықтаймыз, сіз сәтті тіркелдіңіз!"
             },
             ru: {
                 pageTitle: "Регистрация на семинар", langBtn: "Қазақша",
@@ -368,7 +366,7 @@
                 labelPhone: "Номер телефона", labelExtra: "Дополнительная информация", submitBtn: "Зарегистрироваться",
                 qrRegTitle: "QR РЕГИСТРАЦИИ", qrFeedbackTitle: "QR ОБРАТНОЙ СВЯЗИ",
                 participantsTitle: "Зарегистрированные участники", checkBtn: "🔄 Проверить зарегистрированных",
-                alertFill: "Пожалуйста, введите ваше ФИО и место работы!", alertSuccess: "Поздравляем, вы успешно зарегистрировались!", qrRegisteredText: "Зарегистрирован(а) через QR"
+                alertFill: "Пожалуйста, введите ваше ФИО и место работы!", alertSuccess: "Поздравляем, вы успешно зарегистрировались!"
             }
         };
 
@@ -438,16 +436,34 @@
             updateDistricts();
         }
 
+        function loadRegistrations() {
+            fetch(scriptURL)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.length !== undefined) {
+                        document.getElementById('participantCount').textContent = data.length;
+                        const listContainer = document.getElementById('participantsList');
+                        listContainer.innerHTML = '';
+                        data.reverse().forEach((item, index) => {
+                            const newItem = document.createElement('div');
+                            newItem.className = 'participant-item';
+                            const num = data.length - index;
+                            newItem.textContent = `${num}. ${item.fullName || item.name || 'Шебер'} (${item.workplace || ''})`;
+                            listContainer.appendChild(newItem);
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log('Error fetching data:', err);
+                });
+        }
+
         function handleRegistration(event) {
             event.preventDefault();
             const t = translations[currentLang];
 
             const fullName = document.getElementById('fullName').value.trim();
             const workplace = document.getElementById('workplace').value.trim();
-            const positionSelect = document.getElementById('position');
-            const position = positionSelect.value ? ` — ${positionSelect.value}` : '';
-            const district = document.getElementById('district').value;
-            const region = document.getElementById('region').value;
 
             if (!fullName || !workplace) {
                 alert(t.alertFill);
@@ -459,57 +475,28 @@
 
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
-                    participantCount++;
-                    document.getElementById('participantCount').textContent = participantCount;
-
-                    const listContainer = document.getElementById('participantsList');
-                    const newItem = document.createElement('div');
-                    newItem.className = 'participant-item';
-                    newItem.textContent = `${participantCount}. ${fullName} (${workplace}${position}, ${region} / ${district})`;
-                    
-                    listContainer.prepend(newItem);
-
+                    alert(t.alertSuccess);
                     document.getElementById('registrationForm').reset();
                     document.getElementById('city').value = t.valCity;
                     document.getElementById('extra').value = '—';
                     updateDistricts();
-
-                    alert(t.alertSuccess);
+                    setTimeout(loadRegistrations, 1000);
                 })
                 .catch(error => {
-                    // Интернет байланысы немесе скрипт қатесі болған жағдайда да санауыш жұмыс істеуі үшін:
-                    participantCount++;
-                    document.getElementById('participantCount').textContent = participantCount;
-
-                    const listContainer = document.getElementById('participantsList');
-                    const newItem = document.createElement('div');
-                    newItem.className = 'participant-item';
-                    newItem.textContent = `${participantCount}. ${fullName} (${workplace}${position}, ${region} / ${district})`;
-                    listContainer.prepend(newItem);
-
+                    alert(t.alertSuccess);
                     document.getElementById('registrationForm').reset();
                     document.getElementById('city').value = t.valCity;
                     document.getElementById('extra').value = '—';
                     updateDistricts();
-
-                    alert(t.alertSuccess);
+                    setTimeout(loadRegistrations, 1000);
                 });
         }
 
-        function checkNewRegistrations() {
-            const t = translations[currentLang];
-            qrSimulatedCount++;
-            participantCount++;
-            
-            document.getElementById('participantCount').textContent = participantCount;
-
-            const listContainer = document.getElementById('participantsList');
-            const newItem = document.createElement('div');
-            newItem.className = 'participant-item';
-            newItem.textContent = `${participantCount}. ${t.qrRegisteredText} (Мұғалім №${qrSimulatedCount})`;
-            
-            listContainer.prepend(newItem);
-        }
+        // Автоматически загружать при открытии и обновлять каждые 10 секунд
+        window.onload = () => {
+            loadRegistrations();
+            setInterval(loadRegistrations, 10000);
+        };
     </script>
 </body>
 </html>
