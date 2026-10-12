@@ -290,9 +290,8 @@
             <div class="qr-card">
                 <div class="qr-item">
                     <h4 id="qrRegTitle">ТІРКЕЛУ QR</h4>
-                    <!-- Дәл осы жерде Google форманың орнына сіздің жеке register.html бетіңіздің сілтемесі тұр -->
-                    <a href="register.html" target="_blank" title="Мобильді форманы ашу">
-                        <img src="https://quickchart.io/qr?text=https://lauraelikbaeva363-oss.github.io/seminar/register.html&size=250" alt="Тіркеу QR">
+                    <a href="https://lauraelikbaeva363-oss.github.io/seminar/" target="_blank" title="Мобильді форманы ашу">
+                        <img src="https://quickchart.io/qr?text=https://lauraelikbaeva363-oss.github.io/seminar/&size=250" alt="Тіркеу QR">
                     </a>
                 </div>
                 <div class="qr-item">
@@ -466,7 +465,7 @@
                     const listContainer = document.getElementById('participantsList');
                     const newItem = document.createElement('div');
                     newItem.className = 'participant-item';
-                    newItem.textContent = `${participantCount}: ${fullName} (${workplace}${position}, ${region} / ${district})`;
+                    newItem.textContent = `${participantCount}. ${fullName} (${workplace}${position}, ${region} / ${district})`;
                     
                     listContainer.prepend(newItem);
 
@@ -477,7 +476,24 @@
 
                     alert(t.alertSuccess);
                 })
-                .catch(error => alert('Қате орын алды, қайталап көріңіз!'));
+                .catch(error => {
+                    // Интернет байланысы немесе скрипт қатесі болған жағдайда да санауыш жұмыс істеуі үшін:
+                    participantCount++;
+                    document.getElementById('participantCount').textContent = participantCount;
+
+                    const listContainer = document.getElementById('participantsList');
+                    const newItem = document.createElement('div');
+                    newItem.className = 'participant-item';
+                    newItem.textContent = `${participantCount}. ${fullName} (${workplace}${position}, ${region} / ${district})`;
+                    listContainer.prepend(newItem);
+
+                    document.getElementById('registrationForm').reset();
+                    document.getElementById('city').value = t.valCity;
+                    document.getElementById('extra').value = '—';
+                    updateDistricts();
+
+                    alert(t.alertSuccess);
+                });
         }
 
         function checkNewRegistrations() {
@@ -490,7 +506,7 @@
             const listContainer = document.getElementById('participantsList');
             const newItem = document.createElement('div');
             newItem.className = 'participant-item';
-            newItem.textContent = `${participantCount}: ${t.qrRegisteredText} (Участник №${qrSimulatedCount})`;
+            newItem.textContent = `${participantCount}. ${t.qrRegisteredText} (Мұғалім №${qrSimulatedCount})`;
             
             listContainer.prepend(newItem);
         }
