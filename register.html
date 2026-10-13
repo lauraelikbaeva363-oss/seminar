@@ -174,11 +174,31 @@
         function handleRegistration(event) {
             event.preventDefault();
             
-            // Сәтті тіркелгені туралы хабарлама шығару
-            alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!');
-            
-            // Бірінші бетке бірден лақтыру (бағыттау)
-            window.location.replace("https://lauraelikbaeva363-oss.github.io/seminar/");
+            // Форма деректерін жинау
+            const formData = new URLSearchParams();
+            formData.append('fullName', document.getElementById('fullName').value);
+            formData.append('workplace', document.getElementById('workplace').value);
+            formData.append('position', document.getElementById('position').value);
+            formData.append('region', document.getElementById('region').value);
+            formData.append('district', document.getElementById('district').value);
+            formData.append('city', document.getElementById('city').value);
+            formData.append('phone', document.getElementById('phone').value);
+            formData.append('extra', document.getElementById('extra').value);
+
+            // ⚠️ НАЗАР АУДАРЫҢЫЗ: Төмендегі жалғыз тырнақшаның ішіне (асты сызылған жерге) 
+            // Google Apps Script-тен алған веб-қосымша сілтемеңізді (Web app URL) қойыңыз!
+            const scriptURL = 'БҰЛ_ЖЕРГЕ_GOOGLE_APPS_SCRIPT_СІЛТЕМЕСІН_ЖАЗЫҢЫЗ';
+
+            // Деректерді Google Кестеге жіберу және басты бетке қайту
+            fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' })
+                .then(() => {
+                    alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!');
+                    window.location.replace("https://lauraelikbaeva363-oss.github.io/seminar/");
+                })
+                .catch(error => {
+                    console.error('Қате!', error.message);
+                    window.location.replace("https://lauraelikbaeva363-oss.github.io/seminar/");
+                });
         }
     </script>
 </body>
