@@ -18,7 +18,6 @@
             color: #333;
         }
 
-        /* Тіл ауыстырғыш батырма стилі */
         .lang-switcher {
             max-width: 1000px;
             margin: 0 auto 10px auto;
@@ -41,7 +40,6 @@
             background: #e4e0f5;
         }
 
-        /* Жоғарғы ақпараттық блок */
         .header-card {
             background: #fff;
             padding: 20px;
@@ -71,7 +69,6 @@
             margin: 0 auto;
         }
 
-        /* Сол жақ: Тіркелу формасы */
         .left-column {
             flex: 1.2;
             background: #fff;
@@ -80,7 +77,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* Оң жақ баған */
         .right-column {
             flex: 0.8;
             display: flex;
@@ -126,7 +122,6 @@
             background: #fff;
         }
 
-        /* Тіркелген қатысушылар блогы */
         .participants-card {
             background: #fff;
             padding: 20px;
@@ -154,7 +149,6 @@
             margin-top: 5px;
         }
 
-        /* Тексеру батырмасының стилі */
         .check-btn {
             width: 100%;
             background: #4e3684;
@@ -185,7 +179,6 @@
             color: #444;
         }
 
-        /* Форма элементтері */
         .form-group {
             margin-bottom: 12px;
         }
@@ -226,12 +219,10 @@
 </head>
 <body>
 
-    <!-- Тіл ауыстырғыш батырма -->
     <div class="lang-switcher">
         <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">Русский</button>
     </div>
 
-    <!-- Жоғарғы ақпарат блогы -->
     <div class="header-card">
         <h1 id="orgName">Балалар және жасөспірімдер шығармашылық орталығы</h1>
         <p id="eventInfo">Өткізілетін күні мен уақыты: 23 Қазан 2026, 10:00 | Орны: Шонжы ауылы<br>
@@ -240,7 +231,6 @@
     </div>
 
     <div class="main-container">
-        <!-- Сол жақ: Тіркелу формасы -->
         <div class="left-column">
             <h2 id="formTitle" style="text-align: center; font-size: 18px; margin-bottom: 4px;">Тіркелу</h2>
             <p id="formSub" style="text-align: center; font-size: 12px; color: #777; margin-bottom: 18px;">Қатысу үшін форманы толтырыңыз</p>
@@ -296,14 +286,13 @@
             </form>
         </div>
 
-        <!-- Оң жақ: QR кодтар және Тіркелгендер тізімі -->
         <div class="right-column">
             <!-- QR КАРТОЧКАСЫ -->
             <div class="qr-card">
                 <div class="qr-item">
                     <h4 id="qrRegTitle">ТІРКЕЛУ QR</h4>
-                    <a href="https://forms.gle/PuEYD1irAGdWzgNp6" target="_blank" title="Google арқылы тіркелу үшін басыңыз">
-                        <img src="https://quickchart.io/qr?text=https://forms.gle/PuEYD1irAGdWzgNp6&size=250" alt="Google Тіркеу QR">
+                    <a href="https://lauraelikbaeva363-oss.github.io/seminar/register.html" target="_blank" title="Мобильді тіркеу беті үшін басыңыз">
+                        <img src="https://quickchart.io/qr?text=https://lauraelikbaeva363-oss.github.io/seminar/register.html&size=250" alt="Мобильді тіркеу QR">
                     </a>
                 </div>
                 <div class="qr-item">
@@ -314,18 +303,15 @@
                 </div>
             </div>
 
-            <!-- ТІРКЕЛГЕН ҚАТЫСУШЫЛАР БЛОГЫ -->
             <div class="participants-card">
                 <div class="participants-header">
                     <h3 id="participantsTitle">Тіркелген қатысушылар</h3>
                     <div class="count" id="participantCount">0</div>
                 </div>
                 
-                <!-- Тексеру батырмасы -->
                 <button type="button" class="check-btn" id="checkBtn" onclick="checkNewRegistrations()">🔄 Тіркелгендерді тексеру</button>
 
                 <div class="participants-list" id="participantsList">
-                    <!-- Жаңа тіркелгендер осы жерге автоматты түрде қосылып отырады -->
                 </div>
             </div>
         </div>
