@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Семинар мәзірі</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #6b5299;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .menu-card {
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .menu-card h2 {
+            font-size: 20px;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .menu-card p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .menu-btn {
+            display: block;
+            width: 100%;
+            background: #6b52e0;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-bottom: 15px;
+            transition: background 0.2s;
+        }
+
+        .menu-btn:hover {
+            background: #573ec7;
+        }
+
+        .menu-btn.secondary {
+            background: #4e3684;
+        }
+
+        .menu-btn.secondary:hover {
+            background: #3b2765;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-card">
+        <h2>Семинар материалдары</h2>
+        <p>Қажетті бөлімді таңдаңыз:</p>
+
+        <!-- 1-ші түйме: Кері байланыс сілтемесі -->
+        <a href="https://forms.gle/uMJzbyZqmT1sbKij9" target="_blank" class="menu-btn">
+            📝 Кері байланыс беру
+        </a>
+
+        <!-- 2-ші түйме: Квест жауабы (осы жерге квесттің сілтемесін немесе форматын қоясыз) -->
+        <a href="https://forms.gle/ОСЫ_ЖЕРГЕ_КВЕСТ_СІЛТЕМЕСІН_ЖАЗЫҢЫЗ" target="_blank" class="menu-btn secondary">
+            🎯 Квест жауабын жіберу
+        </a>
+    </div>
+
+</body>
+</html>
