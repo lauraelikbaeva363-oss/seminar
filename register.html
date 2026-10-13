@@ -98,15 +98,15 @@
         <form id="mobileForm" onsubmit="handleRegistration(event)">
             <div class="form-group">
                 <label>Тегі, аты, әкесінің аты</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Аты-жөніңізді енгізіңіз" required>
+                <input type="text" id="fullName" placeholder="Аты-жөніңізді енгізіңіз" required>
             </div>
             <div class="form-group">
                 <label>Жұмыс орны (мектеп атауы)</label>
-                <input type="text" id="workplace" name="workplace" placeholder="Мектеп атауы" required>
+                <input type="text" id="workplace" placeholder="Мектеп атауы" required>
             </div>
             <div class="form-group">
                 <label>Лауазымыңыз</label>
-                <select id="position" name="position">
+                <select id="position">
                     <option value="">Лауазымды таңдаңыз</option>
                     <option value="Мұғалім">Мұғалім</option>
                     <option value="Мектеп директоры">Мектеп директоры</option>
@@ -115,7 +115,8 @@
             </div>
             <div class="form-group">
                 <label>Облысыңыз</label>
-                <select id="region" name="region" onchange="updateDistricts()">
+                <select id="region" onchange="updateDistricts()">
+                    <option value="">Тізімнен облысты таңдаңыз...</option>
                     <option value="Алматы облысы" selected>Алматы облысы</option>
                     <option value="Жетісу облысы">Жетісу облысы</option>
                     <option value="Жамбыл облысы">Жамбыл облысы</option>
@@ -125,27 +126,27 @@
             </div>
             <div class="form-group">
                 <label>Ауданыңыз</label>
-                <select id="district" name="district"></select>
+                <select id="district">
+                    <!-- Аудандар автоматты түрде жүктеледі -->
+                </select>
             </div>
             <div class="form-group">
                 <label>Қала/аудан</label>
-                <input type="text" id="city" name="city" value="Шонжы ауылы">
+                <input type="text" id="city" value="Шонжы ауылы">
             </div>
             <div class="form-group">
                 <label>Телефон нөмірі</label>
-                <input type="text" id="phone" name="phone" placeholder="+7 (___) ___-__-__">
+                <input type="text" id="phone" placeholder="+7 (___) ___-__-__">
             </div>
             <div class="form-group">
                 <label>Қосымша ақпарат</label>
-                <input type="text" id="extra" name="extra" value="—">
+                <input type="text" id="extra" value="—">
             </div>
-            <button type="submit" class="submit-btn" id="submitBtn">Тіркелу</button>
+            <button type="submit" class="submit-btn">Тіркелу</button>
         </form>
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbylYmSHV6gjGc-GyxKc_Ntis9JxZu-y3Md3TALYEgpil3UZjHjOnAoox-41evAlekY56Q/exec';
-
         const districts = [
             "Ұйғыр ауданы (Шонжы)",
             "Еңбекшіқазақ ауданы",
@@ -159,6 +160,7 @@
         function updateDistricts() {
             const districtSelect = document.getElementById('district');
             districtSelect.innerHTML = '';
+            
             districts.forEach(d => {
                 const opt = document.createElement('option');
                 opt.value = d;
@@ -171,22 +173,11 @@
 
         function handleRegistration(event) {
             event.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Жіберілуде...';
-
-            const form = document.getElementById('mobileForm');
-            const formData = new FormData(form);
-
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
-                    alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!');
-                    window.location.reload();
-                })
-                .catch(error => {
-                    alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!');
-                    window.location.reload();
-                });
+            alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!');
+            document.getElementById('mobileForm').reset();
+            document.getElementById('city').value = 'Шонжы ауылы';
+            document.getElementById('extra').value = '—';
+            updateDistricts();
         }
     </script>
 </body>
