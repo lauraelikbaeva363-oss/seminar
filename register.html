@@ -95,18 +95,24 @@
         <h2>Тіркелу</h2>
         <p>Қатысу үшін форманы толтырыңыз</p>
 
-        <form id="mobileForm" onsubmit="handleRegistration(event)">
+        <!-- Деректерді Google Кестеге тікелей жіберетін форма -->
+        <form id="mobileForm" 
+              action="https://script.google.com/macros/s/AKfycbjISACCmM2VSla8lqkrhCKr03C7YyaS9ATPf-tkwy8U2t0z_9lI5n1AY4IpCoTrNXelw/exec" 
+              method="POST" 
+              target="hidden_iframe" 
+              onsubmit="submitted=true;">
+            
             <div class="form-group">
                 <label>Тегі, аты, әкесінің аты</label>
-                <input type="text" id="fullName" placeholder="Аты-жөніңізді енгізіңіз" required>
+                <input type="text" name="fullName" id="fullName" placeholder="Аты-жөніңізді енгізіңіз" required>
             </div>
             <div class="form-group">
                 <label>Жұмыс орны (мектеп атауы)</label>
-                <input type="text" id="workplace" placeholder="Мектеп атауы" required>
+                <input type="text" name="workplace" id="workplace" placeholder="Мектеп атауы" required>
             </div>
             <div class="form-group">
                 <label>Лауазымыңыз</label>
-                <select id="position">
+                <select name="position" id="position">
                     <option value="">Лауазымды таңдаңыз</option>
                     <option value="Мұғалім">Мұғалім</option>
                     <option value="Мектеп директоры">Мектеп директоры</option>
@@ -115,7 +121,7 @@
             </div>
             <div class="form-group">
                 <label>Облысыңыз</label>
-                <select id="region" onchange="updateDistricts()">
+                <select name="region" id="region" onchange="updateDistricts()">
                     <option value="">Тізімнен облысты таңдаңыз...</option>
                     <option value="Алматы облысы" selected>Алматы облысы</option>
                     <option value="Жетісу облысы">Жетісу облысы</option>
@@ -126,24 +132,27 @@
             </div>
             <div class="form-group">
                 <label>Ауданыңыз</label>
-                <select id="district">
+                <select name="district" id="district">
                     <!-- Аудандар автоматты түрде жүктеледі -->
                 </select>
             </div>
             <div class="form-group">
                 <label>Қала/аудан</label>
-                <input type="text" id="city" value="Шонжы ауылы">
+                <input type="text" name="city" id="city" value="Шонжы ауылы">
             </div>
             <div class="form-group">
                 <label>Телефон нөмірі</label>
-                <input type="text" id="phone" placeholder="+7 (___) ___-__-__">
+                <input type="text" name="phone" id="phone" placeholder="+7 (___) ___-__-__">
             </div>
             <div class="form-group">
                 <label>Қосымша ақпарат</label>
-                <input type="text" id="extra" value="—">
+                <input type="text" name="extra" id="extra" value="—">
             </div>
             <button type="submit" class="submit-btn">Тіркелу</button>
         </form>
+
+        <!-- Деректерді жіберген кезде бетті ауыстырмай, сыртқа жіберетін көрінмейтін iframe -->
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!'); window.location.replace('https://lauraelikbaeva363-oss.github.io/seminar/'); }"></iframe>
     </div>
 
     <script>
@@ -170,32 +179,7 @@
         }
 
         window.onload = updateDistricts;
-
-        function handleRegistration(event) {
-            event.preventDefault();
-            
-            const formData = new URLSearchParams();
-            formData.append('fullName', document.getElementById('fullName').value);
-            formData.append('workplace', document.getElementById('workplace').value);
-            formData.append('position', document.getElementById('position').value);
-            formData.append('region', document.getElementById('region').value);
-            formData.append('district', document.getElementById('district').value);
-            formData.append('city', document.getElementById('city').value);
-            formData.append('phone', document.getElementById('phone').value);
-            formData.append('extra', document.getElementById('extra').value);
-
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbjISACCmM2VSla8lqkrhCKr03C7YyaS9ATPf-tkwy8U2t0z_9lI5n1AY4IpCoTrNXelw/exec';
-
-            fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' })
-                .then(() => {
-                    alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!');
-                    window.location.replace("https://lauraelikbaeva363-oss.github.io/seminar/");
-                })
-                .catch(error => {
-                    console.error('Қате!', error.message);
-                    window.location.replace("https://lauraelikbaeva363-oss.github.io/seminar/");
-                });
-        }
+        var submitted = false;
     </script>
 </body>
 </html>
