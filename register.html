@@ -174,11 +174,11 @@
         function handleRegistration(event) {
             event.preventDefault();
             alert('Құттықтаймыз, сіз сәтті тіркелдіңіз!');
-            document.getElementById('mobileForm').reset();
-            document.getElementById('city').value = 'Шонжы ауылы';
-            document.getElementById('extra').value = '—';
-            updateDistricts();
+            
+            // Тіркелгеннен кейін автоматты түрде басты бетке қайту
+            window.location.href = "https://lauraelikbaeva363-oss.github.io/seminar/";
         }
     </script>
 </body>
 </html>
+    
