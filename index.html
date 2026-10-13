@@ -318,9 +318,8 @@
     </div>
 
     <script>
-        let participantCount = 0;
-        let qrSimulatedCount = 0;
         let currentLang = 'kk';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxXfh6OvjIxV5nyrbj0-3WCZTjH1OguWJtLBXERi7h5DCnwkmOytow-ZWN7GFT9bBrg/exec';
 
         const districtsData = {
             kk: {
@@ -334,64 +333,28 @@
                     "Қонаев қаласы"
                 ],
                 "Жетісу облысы": [
-                    "Ақсу ауданы",
-                    "Алакөл ауданы",
-                    "Ескелді ауданы",
-                    "Қаратал ауданы",
-                    "Кербұлақ ауданы",
-                    "Сарқан ауданы",
-                    "Талдықорған қ."
+                    "Ақсу ауданы", "Алакөл ауданы", "Ескелді ауданы", "Қаратал ауданы", "Кербұлақ ауданы", "Сарқан ауданы", "Талдықорған қ."
                 ],
                 "Жамбыл облысы": [
-                    "Байзақ ауданы",
-                    "Жамбыл ауданы",
-                    "Қордай ауданы",
-                    "Меркі ауданы",
-                    "Тұрар Рысқұл ауданы",
-                    "Тараз қ."
+                    "Байзақ ауданы", "Жамбыл ауданы", "Қордай ауданы", "Меркі ауданы", "Тұрар Рысқұл ауданы", "Тараз қ."
                 ],
                 "Түркістан облысы": [
-                    "Бәйдібек ауданы",
-                    "Жетісай ауданы",
-                    "Сарыағаш ауданы",
-                    "Төле би ауданы",
-                    "Түркістан қ."
+                    "Бәйдібек ауданы", "Жетісай ауданы", "Сарыағаш ауданы", "Төле би ауданы", "Түркістан қ."
                 ],
                 "Басқа": ["Басқа аудан"]
             },
             ru: {
                 "Алматы облысы": [
-                    "Уйгурский район (Шонжы)",
-                    "Енбекшиказахский район",
-                    "Талгарский район",
-                    "Карасайский район",
-                    "Жамбылский район",
-                    "Илийский район",
-                    "город Конаев"
+                    "Уйгурский район (Шонжы)", "Енбекшиказахский район", "Талгарский район", "Карасайский район", "Жамбылский район", "Илийский район", "город Конаев"
                 ],
                 "Жетісу облысы": [
-                    "Аксуский район",
-                    "Алакольский район",
-                    "Ескельдинский район",
-                    "Каратальский район",
-                    "Кербулакский район",
-                    "Сарканский район",
-                    "город Талдыкорган"
+                    "Аксуский район", "Алакольский район", "Ескельдинский район", "Каратальский район", "Кербулакский район", "Сарканский район", "город Талдыкорган"
                 ],
                 "Жамбыл облысы": [
-                    "Байзакский район",
-                    "Жамбылский район",
-                    "Кордайский район",
-                    "Меркенский район",
-                    "район Т. Рыскулова",
-                    "город Тараз"
+                    "Байзакский район", "Жамбылский район", "Кордайский район", "Меркенский район", "район Т. Рыскулова", "город Тараз"
                 ],
                 "Түркістан облысы": [
-                    "Байдибекский район",
-                    "Жетысайский район",
-                    "Сарыагашский район",
-                    "Толебийский район",
-                    "город Туркестан"
+                    "Байдибекский район", "Жетысайский район", "Сарыагашский район", "Толебийский район", "город Туркестан"
                 ],
                 "Басқа": ["Другой район"]
             }
@@ -428,8 +391,7 @@
                 participantsTitle: "Тіркелген қатысушылар",
                 checkBtn: "🔄 Тіркелгендерді тексеру",
                 alertFill: "Өтінемін, аты-жөніңізді және жұмыс орныңызды енгізіңіз!",
-                alertSuccess: "Құттықтаймыз, сіз сәтті тіркелдіңіз!",
-                qrRegisteredText: "QR арқылы тіркелді"
+                alertSuccess: "Құттықтаймыз, сіз сәтті тіркелдіңіз!"
             },
             ru: {
                 pageTitle: "Регистрация на семинар",
@@ -461,8 +423,7 @@
                 participantsTitle: "Зарегистрированные участники",
                 checkBtn: "🔄 Проверить зарегистрированных",
                 alertFill: "Пожалуйста, введите ваше ФИО и место работы!",
-                alertSuccess: "Поздравляем, вы успешно зарегистрировались!",
-                qrRegisteredText: "Зарегистрирован(а) через QR"
+                alertSuccess: "Поздравляем, вы успешно зарегистрировались!"
             }
         };
 
@@ -539,54 +500,23 @@
             updateDistricts();
         }
 
-        function handleRegistration(event) {
-            event.preventDefault();
-            const t = translations[currentLang];
-
-            const fullName = document.getElementById('fullName').value.trim();
-            const workplace = document.getElementById('workplace').value.trim();
-            const positionSelect = document.getElementById('position');
-            const position = positionSelect.value ? ` — ${positionSelect.value}` : '';
-            const district = document.getElementById('district').value;
-            const region = document.getElementById('region').value;
-
-            if (!fullName || !workplace) {
-                alert(t.alertFill);
-                return;
-            }
-
-            participantCount++;
-            document.getElementById('participantCount').textContent = participantCount;
-
-            const listContainer = document.getElementById('participantsList');
-            const newItem = document.createElement('div');
-            newItem.className = 'participant-item';
-            newItem.textContent = `${participantCount}: ${fullName} (${workplace}${position}, ${region} / ${district})`;
-            
-            listContainer.prepend(newItem);
-
-            document.getElementById('registrationForm').reset();
-            document.getElementById('city').value = t.valCity;
-            document.getElementById('extra').value = '—';
-            updateDistricts();
-
-            alert(t.alertSuccess);
-        }
-
+        // Google кестеден қатысушылар санын автоматты түрде оқып алу функциясы
         function checkNewRegistrations() {
-            const t = translations[currentLang];
-            qrSimulatedCount++;
-            participantCount++;
-            
-            document.getElementById('participantCount').textContent = participantCount;
-
-            const listContainer = document.getElementById('participantsList');
-            const newItem = document.createElement('div');
-            newItem.className = 'participant-item';
-            newItem.textContent = `${participantCount}: ${t.qrRegisteredText} (Участник №${qrSimulatedCount})`;
-            
-            listContainer.prepend(newItem);
+            fetch(scriptUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.count !== undefined) {
+                        document.getElementById('participantCount').textContent = data.count;
+                    }
+                })
+                .catch(error => console.error('Қате:', error));
         }
+
+        // Сайт ашылған бойда және әр 10 секунд сайын автоматты түрде жаңартып тұру
+        window.onload = function() {
+            checkNewRegistrations();
+            setInterval(checkNewRegistrations, 10000);
+        };
     </script>
 </body>
 </html>
