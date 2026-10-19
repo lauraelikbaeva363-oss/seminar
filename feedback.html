@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кері байланыс</title>
-    <!-- Bootstrap CSS стилі -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -72,34 +72,32 @@
         <h3>Кері байланыс</h3>
         <p>Семинар туралы өз пікіріңіз бен ұсынысыңызды қалдырыңыз</p>
 
-        <!-- Деректерді Google Формаға фонда жіберуге арналған жасырынiframe -->
-        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { alert('Рақмет! Пікіріңіз сәтті қабылданды.'); window.location.reload(); }"></iframe>
+        <!-- Жасырын iframe: ОК басқанда мәзір бетіне (меню.html) қайтады -->
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { alert('Рақмет! Пікіріңіз сәтті қабылданды.'); window.location.href='меню.html'; }"></iframe>
 
-        <!-- Негізгі пікір формасы -->
+        <!-- Форма -->
         <form action="https://docs.google.com/forms/d/e/1FAIpQLSetZbJ6vhIZClvqk2BEoYha1SeQGLG5i7CuJXOsgArzl5xnLQ/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
 
-            <!-- Қатысушының аты-жөні енгізетін өріс -->
+            <!-- Аты-жөні -->
             <div class="mb-3">
                 <label for="fullname">Аты-жөніңіз *</label>
                 <input type="text" class="form-control" name="entry.2005620554" id="fullname" placeholder="Аты-жөніңізді енгізіңіз" required>
             </div>
 
-            <!-- Семинар туралы пікір жазатын өріс -->
+            <!-- Пікір -->
             <div class="mb-4">
                 <label for="comments">Бүгінгі семинар туралы өз пікіріңіз бен ұсынысыңыз *</label>
                 <textarea class="form-control" name="entry.839337160" id="comments" rows="4" placeholder="Пікіріңізді осында жазыңыз..." required></textarea>
             </div>
 
-            <!-- Форманы жіберу батырмасы -->
+            <!-- Жіберу батырмасы -->
             <button type="submit" class="btn-custom">Жіберу</button>
         </form>
     </div>
 
-    <!-- Форманың жіберілгенін бақылайтын скрипт -->
     <script>
         var submitted = false;
     </script>
 
 </body>
 </html>
-      
