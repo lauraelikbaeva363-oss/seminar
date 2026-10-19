@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квест жауабы</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #6b5299; /* Сайттың негізгі күлгін түсі */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card-custom {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            padding: 30px 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+        .card-custom h3 {
+            font-size: 20px;
+            color: #222;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .card-custom p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .btn-custom {
+            display: block;
+            width: 100%;
+            background: #4e3684; /* Квест батырмасының қою күлгін түсі */
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-custom:hover {
+            background: #3b2765;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            font-size: 14px;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-custom">
+        <h3>🎯 Квест тапсырмасы</h3>
+        <p>Квест жауабын төмендегі өрістерге енгізіп жіберіңіз</p>
+
+        <!-- Google Формаға жасырын жіберу үшін iframe -->
+        <iframe name="hidden_iframe_quest" id="hidden_iframe_quest" style="display:none;" onload="if(submitted) {alert('Квест жауабыңыз сәтті қабылданды!'); location.reload();}"></iframe>
+
+        <!-- Квестке арналған Google Форма сілтемесі -->
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLScXQG2iZp.../formResponse" method="POST" target="hidden_iframe_quest" onsubmit="submitted=true;">
+
+            <!-- Аты-жөні -->
+            <div class="mb-3">
+                <label for="fullname">Аты-жөніңіз *</label>
+                <input type="text" class="form-control" name="entry.1000001" id="fullname" placeholder="Аты-жөніңізді енгізіңіз" required>
+            </div>
+
+            <!-- Квест жауабы -->
+            <div class="mb-4">
+                <label for="answer">Квест жауабы *</label>
+                <textarea class="form-control" name="entry.1000002" id="answer" rows="4" placeholder="Жауабыңызды осында жазыңыз..." required></textarea>
+            </div>
+
+            <!-- Жіберу батырмасы -->
+            <button type="submit" class="btn-custom">Жіберу</button>
+        </form>
+    </div>
+
+    <script>
+        var submitted = false;
+    </script>
+
+</body>
+</html>
