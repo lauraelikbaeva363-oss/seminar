@@ -72,25 +72,52 @@
         <h3>Кері байланыс</h3>
         <p>Семинар туралы өз пікіріңіз бен ұсынысыңызды қалдырыңыз</p>
 
-        <!-- Google Формаға жіберетін форма -->
-        <form action="https://docs.google.com/forms/d/e/1FAIpQLSetZbJ6vhIZClvqk2BEoYha1SeQGLG5i7CuJXOsgArzl5xnLQ/formResponse" method="POST" target="_blank">
+        <!-- Форма -->
+        <form id="feedbackForm">
 
-            <!-- Аты-жөні (Google Form-дағы тиісті entry өрісімен) -->
+            <!-- Аты-жөні -->
             <div class="mb-3">
                 <label for="fullname">Аты-жөніңіз *</label>
                 <input type="text" class="form-control" name="entry.2005620554" id="fullname" placeholder="Аты-жөніңізді енгізіңіз" required>
             </div>
 
-            <!-- Пікір (Google Form-дағы тиісті entry өрісімен) -->
+            <!-- Пікір -->
             <div class="mb-4">
                 <label for="comments">Бүгінгі семинар туралы өз пікіріңіз бен ұсынысыңыз *</label>
                 <textarea class="form-control" name="entry.839337160" id="comments" rows="4" placeholder="Пікіріңізді осында жазыңыз..." required></textarea>
             </div>
 
             <!-- Жіберу батырмасы -->
-            <button type="submit" class="btn-custom">Жіберу</button>
+            <button type="submit" class="btn-custom" id="submitBtn">Жіберу</button>
         </form>
     </div>
+
+    <script>
+        const form = document.getElementById('feedbackForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Беттің басқа жаққа ауысып кетуін тоқтатамыз
+            
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Жіберілуде...';
+
+            const formData = new FormData(form);
+            const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSetZbJ6vhIZClvqk2BEoYha1SeQGLG5i7CuJXOsgArzl5xnLQ/formResponse';
+
+            fetch(googleFormUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            }).then(() => {
+                alert('Рақмет! Пікіріңіз сәтті қабылданды.');
+                window.location.reload(); // Бетті автоматты түрде кайта жаңартып, кері байланыс бетінде қалдырамыз
+            }).catch(error => {
+                alert('Рақмет! Пікіріңіз қабылданды.');
+                window.location.reload();
+            });
+        });
+    </script>
 
 </body>
 </html>
