@@ -72,19 +72,19 @@
         <h3>Кері байланыс</h3>
         <p>Семинар туралы өз пікіріңіз бен ұсынысыңызды қалдырыңыз</p>
 
-        <!-- Жасырын iframe (деректерді сыртқа шығармай жіберу үшін) -->
+        <!-- Жасырын iframe (Google Формаға жауапты фонда жіберу үшін) -->
         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { alert('Рақмет! Пікіріңіз сәтті қабылданды.'); window.location.reload(); }"></iframe>
 
         <!-- Форма -->
         <form action="https://docs.google.com/forms/d/e/1FAIpQLSetZbJ6vhIZClvqk2BEoYha1SeQGLG5i7CuJXOsgArzl5xnLQ/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
 
-            <!-- Аты-жөні -->
+            <!-- Аты-жөні өрісі -->
             <div class="mb-3">
                 <label for="fullname">Аты-жөніңіз *</label>
                 <input type="text" class="form-control" name="entry.2005620554" id="fullname" placeholder="Аты-жөніңізді енгізіңіз" required>
             </div>
 
-            <!-- Пікір -->
+            <!-- Пікір өрісі -->
             <div class="mb-4">
                 <label for="comments">Бүгінгі семинар туралы өз пікіріңіз бен ұсынысыңыз *</label>
                 <textarea class="form-control" name="entry.839337160" id="comments" rows="4" placeholder="Пікіріңізді осында жазыңыз..." required></textarea>
