@@ -72,8 +72,11 @@
         <h3>Кері байланыс</h3>
         <p>Семинар туралы өз пікіріңіз бен ұсынысыңызды қалдырыңыз</p>
 
+        <!-- Жасырын iframe (деректерді сыртқа шығармай жіберу үшін) -->
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { alert('Рақмет! Пікіріңіз сәтті қабылданды.'); window.location.reload(); }"></iframe>
+
         <!-- Форма -->
-        <form id="feedbackForm">
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLSetZbJ6vhIZClvqk2BEoYha1SeQGLG5i7CuJXOsgArzl5xnLQ/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
 
             <!-- Аты-жөні -->
             <div class="mb-3">
@@ -88,35 +91,12 @@
             </div>
 
             <!-- Жіберу батырмасы -->
-            <button type="submit" class="btn-custom" id="submitBtn">Жіберу</button>
+            <button type="submit" class="btn-custom">Жіберу</button>
         </form>
     </div>
 
     <script>
-        const form = document.getElementById('feedbackForm');
-        const submitBtn = document.getElementById('submitBtn');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Беттің басқа жаққа ауысып кетуін тоқтатамыз
-            
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'Жіберілуде...';
-
-            const formData = new FormData(form);
-            const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSetZbJ6vhIZClvqk2BEoYha1SeQGLG5i7CuJXOsgArzl5xnLQ/formResponse';
-
-            fetch(googleFormUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: formData
-            }).then(() => {
-                alert('Рақмет! Пікіріңіз сәтті қабылданды.');
-                window.location.reload(); // Бетті автоматты түрде кайта жаңартып, кері байланыс бетінде қалдырамыз
-            }).catch(error => {
-                alert('Рақмет! Пікіріңіз қабылданды.');
-                window.location.reload();
-            });
-        });
+        var submitted = false;
     </script>
 
 </body>
