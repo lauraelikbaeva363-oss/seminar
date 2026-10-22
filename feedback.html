@@ -1,119 +1,23 @@
-<!DOCTYPE html>
-<html lang="kk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кері байланыс</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #6b5299;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .card-custom {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            padding: 30px 20px;
-            max-width: 400px;
-            width: 100%;
-        }
-        .card-custom h3 {
-            font-size: 20px;
-            color: #222;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        .card-custom p {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .btn-custom {
-            display: block;
-            width: 100%;
-            background: #6b52e0;
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-custom:hover {
-            background: #573ec7;
-        }
-        .form-control {
-            border-radius: 8px;
-            padding: 12px;
-            border: 1px solid #ced4da;
-            font-size: 14px;
-        }
-        label {
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #333;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQHZFj6OqmM0WGnbllJcTdKGpt78Cn2CwDCE2vs9Agh_2jzneL9Pjni3NPooCZN7zZ0w/exec";
 
-    <div class="card-custom">
-        <h3>Кері байланыс</h3>
-        <p>Семинар туралы өз пікіріңіз бен ұсынысыңызды қалдырыңыз</p>
+document.querySelector('form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Формадағы енгізілген мәліметтерді жинау
+  const formData = {
+    fullname: document.querySelector('input[type="text"]').value,
+    feedback: document.querySelector('textarea').value
+  };
 
-        <!-- Пікір формасы -->
-        <form id="feedbackForm">
-            <div class="mb-3">
-                <label for="fullname">Аты-жөніңіз *</label>
-                <input type="text" class="form-control" name="entry.2005620554" id="fullname" placeholder="Аты-жөніңізді енгізіңіз" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="comments">Бүгінгі семинар туралы өз пікіріңіз бен ұсынысыңыз *</label>
-                <textarea class="form-control" name="entry.839337160" id="comments" rows="4" placeholder="Пікіріңізді осында жазыңыз..." required></textarea>
-            </div>
-
-            <button type="submit" class="btn-custom" id="submitBtn">Жіберу</button>
-        </form>
-    </div>
-
-    <script>
-        const form = document.getElementById('feedbackForm');
-        const submitBtn = document.getElementById('submitBtn');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'Жіберілуде...';
-
-            const formData = new FormData(form);
-            const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSetZbJ6vhIZClvqk2BEoYha1SeQGLG5i7CuJXOsgArzl5xnLQ/formResponse';
-
-            fetch(googleFormUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: formData
-            }).then(() => {
-                alert('Рақмет! Пікіріңіз сәтті қабылданды.');
-                window.location.href = 'menu.html'; // Дәл осы жер латынша болып тұруы шарт
-            }).catch(() => {
-                alert('Рақмет! Пікіріңіз сәтті қабылданды.');
-                window.location.href = 'menu.html'; // Дәл осы жер латынша болып тұруы шарт
-            });
-        });
-    </script>
-
-</body>
-</html>
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  .then(() => {
+    alert('Кері байланысыңыз сәтті жіберілді! Рақмет!');
+    this.reset();
+  })
+  .catch(error => alert('Қателік орын алды: ' + error));
+});
