@@ -104,9 +104,8 @@
         })
         .then(() => {
             alert('Кері байланысыңыз сәтті жіберілді! Рақмет!');
-            document.getElementById('feedbackForm').reset();
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Жіберу";
+            // Мәлімет түскен соң мәзір бетіне немесе басты бетке қайтару (index.html немесе меню.html)
+            window.location.href = 'index.html'; 
         })
         .catch(error => {
             alert('Қателік орын алды: ' + error);
