@@ -76,12 +76,12 @@
         <form id="questForm">
             <div class="mb-3">
                 <label for="fullname">Аты-жөніңіз *</label>
-                <input type="text" class="form-control" name="entry.1000001" id="fullname" placeholder="Аты-жөніңізді енгізіңіз" required>
+                <input type="text" class="form-control" id="fullname" placeholder="Аты-жөніңізді енгізіңіз" required>
             </div>
 
             <div class="mb-4">
                 <label for="answer">Квест жауабы *</label>
-                <textarea class="form-control" name="entry.1000002" id="answer" rows="4" placeholder="Жауабыңызды осында жазыңыз..." required></textarea>
+                <textarea class="form-control" id="answer" rows="4" placeholder="Жауабыңызды осында жазыңыз..." required></textarea>
             </div>
 
             <button type="submit" class="btn-custom" id="submitBtn">Жіберу</button>
@@ -89,6 +89,9 @@
     </div>
 
     <script>
+        // Квестке арналған Google Apps Script Web App сілтемесін осында қойыңыз
+        const SCRIPT_URL = "СІЗДІҢ_КВЕСТ_APPS_SCRIPT_СІЛТЕМЕСІН_ОСЫНДҒА_ҚОЙЫҢЫЗ";
+
         const form = document.getElementById('questForm');
         const submitBtn = document.getElementById('submitBtn');
 
@@ -98,17 +101,23 @@
             submitBtn.disabled = true;
             submitBtn.innerText = 'Жіберілуде...';
 
-            const formData = new FormData(form);
-            const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScXQG2iZp.../formResponse'; // Өз квест Google форма сілтемесін қойыңыз
+            // Деректерді JSON форматында дайындау
+            const formData = {
+                fullname: document.getElementById('fullname').value,
+                feedback: document.getElementById('answer').value // Apps Script-тегі data.feedback өрісіне түсу үшін
+            };
 
-            fetch(googleFormUrl, {
+            fetch(SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
-                body: formData
-            }).then(() => {
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
                 alert('Квест жауабыңыз сәтті қабылданды!');
                 window.location.href = 'menu.html';
-            }).catch(() => {
+            })
+            .catch(() => {
                 alert('Квест жауабыңыз сәтті қабылданды!');
                 window.location.href = 'menu.html';
             });
