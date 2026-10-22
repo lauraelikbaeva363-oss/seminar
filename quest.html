@@ -89,8 +89,8 @@
     </div>
 
     <script>
-        // Квестке арналған Google Apps Script Web App сілтемесін осында қойыңыз
-        const SCRIPT_URL = "СІЗДІҢ_КВЕСТ_APPS_SCRIPT_СІЛТЕМЕСІН_ОСЫНДҒА_ҚОЙЫҢЫЗ";
+        // Квестке арналған Google Apps Script Web App сілтемесі тіркелді
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwoxwW0wZJw68zyQLT_uKxNUE9zc8jtx3O_WxGJ_cUaSmUKe7wzpOefYSFdEs6UXAbUxw/exec";
 
         const form = document.getElementById('questForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -104,7 +104,7 @@
             // Деректерді JSON форматында дайындау
             const formData = {
                 fullname: document.getElementById('fullname').value,
-                feedback: document.getElementById('answer').value // Apps Script-тегі data.feedback өрісіне түсу үшін
+                feedback: document.getElementById('answer').value 
             };
 
             fetch(SCRIPT_URL, {
