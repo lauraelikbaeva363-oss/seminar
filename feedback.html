@@ -1,23 +1,122 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQHZFj6OqmM0WGnbllJcTdKGpt78Cn2CwDCE2vs9Agh_2jzneL9Pjni3NPooCZN7zZ0w/exec";
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кері байланыс</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #5c3b8c;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            text-align: center;
+            color: #5c3b8c;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+            height: 120px;
+        }
+        button {
+            width: 100%;
+            background-color: #5c3b8c;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #4a2f73;
+        }
+    </style>
+</head>
+<body>
 
-document.querySelector('form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  // Формадағы енгізілген мәліметтерді жинау
-  const formData = {
-    fullname: document.querySelector('input[type="text"]').value,
-    feedback: document.querySelector('textarea').value
-  };
+<div class="container">
+    <h2>Кері байланыс қалдыру</h2>
+    <form id="feedbackForm">
+        <div class="form-group">
+            <label for="fullname">Тегі, аты, әкесінің аты:</label>
+            <input type="text" id="fullname" placeholder="Аты-жөніңізді енгізіңіз" required>
+        </div>
+        <div class="form-group">
+            <label for="feedback">Бүгінгі семинар туралы пікіріңіз бен ұсынысыңыз:</label>
+            <textarea id="feedback" placeholder="Пікіріңізді жазыңыз..." required></textarea>
+        </div>
+        <button type="submit">Жіберу</button>
+    </form>
+</div>
 
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData)
-  })
-  .then(() => {
-    alert('Кері байланысыңыз сәтті жіберілді! Рақмет!');
-    this.reset();
-  })
-  .catch(error => alert('Қателік орын алды: ' + error));
-});
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQHZFj6OqmM0WGnbllJcTdKGpt78Cn2CwDCE2vs9Agh_2jzneL9Pjni3NPooCZN7zZ0w/exec";
+
+    document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = e.target.querySelector('button');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Жіберілуде...";
+
+        const formData = {
+            fullname: document.getElementById('fullname').value,
+            feedback: document.getElementById('feedback').value
+        };
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(() => {
+            alert('Кері байланысыңыз сәтті жіберілді! Рақмет!');
+            document.getElementById('feedbackForm').reset();
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Жіберу";
+        })
+        .catch(error => {
+            alert('Қателік орын алды: ' + error);
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Жіберу";
+        });
+    });
+</script>
+
+</body>
+</html>
